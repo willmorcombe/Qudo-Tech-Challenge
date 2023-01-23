@@ -9,7 +9,7 @@ from rest_framework.authtoken.models import Token
 from django.contrib.auth.models import User
 
 from .serializers import UserSerializer
-from .models import User
+from .models import User, Products
 
 
 
@@ -50,4 +50,5 @@ def login(request):
 
 
 def home(request):
-    return render(request, 'order/home.html', {'usernames' : 'test'})
+    data = Products.getAllData()
+    return render(request, 'order/home.html', {'data' : data})

@@ -10,8 +10,26 @@
   </head>
   <body>
     <main>
-        <h1>Users</h1>
-        <p> {{ usernames }}</p>
+        <h1>All Data</h1>
+
+
+
+        <table>
+          <tr>
+              <th>ID</th>
+              <th>NAME</th>
+              <th>PRICE</th>
+              <th>QUANTITY</th>
+          </tr>
+              {% for line in data %}
+          <tr>
+              <td>{{line.0}}</td>
+              <td>{{line.1}}</td>
+              <td>{{line.2}}</td>
+              <td>{{line.3}}</td>
+          </tr>
+          {% endfor %}
+        </table>
     </main>
 	<script src="index.js"></script>
   </body>

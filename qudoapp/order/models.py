@@ -18,6 +18,23 @@ class User(AbstractUser):
     REQUIRED_FIELDS = []
 
 
+class Products(models.Model):
+    id = models.IntegerField(primary_key=True)
+    name = models.CharField(max_length=10)
+    price = models.IntegerField()
+    quantity_in_stock = models.IntegerField()
+
+    class Meta:
+        db_table = 'products'
+        managed = False
+
+
+    # function for returning all product data to display in list
+    @classmethod
+    def getAllData(self):
+        return [[data['id'], data['name'], data['price'], data['quantity_in_stock']] for data in self.objects.all().values()]
+
+
 @receiver(post_save, sender=settings.AUTH_USER_MODEL)
 def create_auth_token(sender, instance=None, created=False, **kwargs):
     if created:
