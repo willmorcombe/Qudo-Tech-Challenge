@@ -38,19 +38,23 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'order.apps.OrderConfig',
-    'rest_framework.authtoken', # for token authentication
+    'accounts',
+    'products',
+    'rest_framework', # for token authentication
+    'rest_framework.authtoken',
     'corsheaders', # might not be needed if not creating front end
 ]
 
 # only using token authentication
 REST_FRAMEWORK = {
-    'DEFAULT_AUTHENTICATION_CLASSES': [
-        'rest_framework.authentication.TokenAuthentication',
-    ],
-    'DEFAULT_PERMISSION_CLASSES': [
-            'rest_framework.authentication.TokenAuthentication',
-        ]
+    'NON_FIELD_ERRORS_KEY': 'errors',
+    'DEFAULT_AUTHENTICATION_CLASSES':(
+        'rest_framework.authentication.SessionAuthentication',
+        'rest_framework.authentication.TokenAuthentication'
+    ),
+    'DEFAULT_PERMISSION_CLASSES': (
+        'rest_framework.permissions.IsAuthenticated'
+    )
 }
 
 MIDDLEWARE = [
@@ -140,7 +144,7 @@ STATIC_URL = 'static/'
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
-AUTH_USER_MODEL = 'order.User'
+AUTH_USER_MODEL = 'accounts.User'
 
 
 CORS_ORIGIN_ALLOW_ALL = True
