@@ -3,6 +3,7 @@ from django.contrib.auth import authenticate
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework.authentication import get_authorization_header
+from rest_framework.authtoken.models import Token
 from rest_framework.permissions import IsAuthenticated
 
 from .serializers import UserSerializer
@@ -26,15 +27,15 @@ class LoginView(APIView):
     permission_classes = []
     def post(self, request):
 
-        # user = User.objects.filter(email=request.data['email']).first()
         email = request.data.get('email')
         password = request.data.get('password')
 
         user = authenticate(email=email, password=password)
 
-
-
         if user is not None:
+
+            Token.objects.create(user=user)
+
             data = {
                 'message' : 'Login successful',
                 'token' : user.auth_token.key
@@ -43,7 +44,7 @@ class LoginView(APIView):
         else:
             return Response(data={'message' : 'Invalid credentials'})
 
-
+    # add get method for getting user
 
 class LogoutView(APIView):
     permission_classes = [IsAuthenticated]

@@ -1,5 +1,4 @@
 from rest_framework.serializers import ModelSerializer
-from rest_framework.authtoken.models import Token
 
 from .models import User
 
@@ -20,6 +19,4 @@ class UserSerializer(ModelSerializer):
         if password is not None:
             instance.set_password(password) # use to hash password so not stored as text
         instance.save()
-
-        Token.objects.create(user=instance)
         return instance
