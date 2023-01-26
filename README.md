@@ -11,6 +11,7 @@ Accounts
 - register -> /account/register
 - login -> /account/login
 - logout -> /account/logout
+
 Store
 - view products -> /store
 - view individual products -> /store/<product_id>
