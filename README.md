@@ -1,23 +1,24 @@
-# Technical Assignment
+# Project Overview
 
-Scenario:
-We decided to build a mobile application for our customers, so that they can order our products using their phones. Your goal is to build the backend for this application.
+Project in django (4.1), database MySQL. Endpoints where created for all basic functionality. 
+
+## Running
+
+Clone repo, using a virtual enviroment download all requirements from requriements.txt, Install database on MySQL host (I used localhost). You can access database dump from 'database/seeds/'. 
+
+## Endpoints
+register -> /account/register
+login -> /account/login
+logout -> /account/logout
+
+view products -> /store
+view individual products -> /store/<product_id>
+order products -> /store/order/
+view order history -> /store/order/history
+
+## Expansions
+- For token authentication, using a refresh token to retrieve another access token for security and useability (using something like jwt to do this).
+- Adding a UI to access the endpoints, potentially in React.
+- Implementing a payment model into the existing project structure.
 
 
-### Requirements
-* Customers may exchange their Email and password for an authentication token
-* Customers may see a paginated list of products. Each product in the list should have the following details: `id`, `name`, `price`, and `quantity in stock`
-* Customers may order the products they need
-* Number of products in stock should decrease after an order is made
-* Customers may see their history of orders.
-
-### Technical details
-* Flask/Django 4.x (any modules, any data structures)
-* API only, no need for UI
-* Any database
-* Repository is hosted on github/bitbucket/gitlab. Please make it public for review and share the url.
-
-### Bonus points
-* Simple Frontend UI for Login and products page.
-* Deployment instructions for one of the major providers (GCP, AWS, Azure, Heroku, etc). No need for actual configuration scripts: steps for architecture is enough.
-* We expect that the assignment takes around 2 developer days. Do as much as you can within this timeframe and provide a description of what else you'd like to do but were unable to due to limited time.
