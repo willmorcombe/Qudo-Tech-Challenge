@@ -40,12 +40,12 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'accounts',
     'products',
-    'rest_framework', # for token authentication
+    'rest_framework',
     'rest_framework.authtoken',
-    'corsheaders', # might not be needed if not creating front end
+    'corsheaders',
 ]
 
-# only using token authentication
+# auth and permission classes
 REST_FRAMEWORK = {
     'NON_FIELD_ERRORS_KEY': 'errors',
     'DEFAULT_AUTHENTICATION_CLASSES':(
@@ -92,6 +92,7 @@ WSGI_APPLICATION = 'qudoapp.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/4.1/ref/settings/#databases
 
+# for expansion add .env and store this here
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',

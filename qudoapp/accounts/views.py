@@ -11,12 +11,12 @@ from .models import User
 
 from rest_framework import exceptions
 
-
+# for registering a user
 class RegisterView(APIView):
-    permission_classes = []
+    permission_classes = [] # anyone can register
     def post(self, request):
 
-        serializer = UserSerializer(data = request.data) # send our data to the serializer
+        serializer = UserSerializer(data = request.data) # send our data to the user serializer
         serializer.is_valid(raise_exception=True)
         serializer.save()
 
@@ -27,9 +27,9 @@ class RegisterView(APIView):
 
         return Response(data)
 
-
+# logging in a user
 class LoginView(APIView):
-    permission_classes = []
+    permission_classes = [] # anyone can login
     def post(self, request):
 
         email = request.data.get('email')
@@ -39,20 +39,19 @@ class LoginView(APIView):
 
         if user is not None:
 
-            Token.objects.create(user=user)
+            Token.objects.create(user=user) # attach token to user
 
             data = {
                 'message' : 'Login successful',
-                'token' : user.auth_token.key
+                'token' : user.auth_token.key # return auth token to front end
             }
             return Response(data)
         else:
             return Response(data={'message' : 'Invalid credentials'})
 
-    # add get method for getting user
-
+# logging out a user
 class LogoutView(APIView):
-    permission_classes = [IsAuthenticated]
+    permission_classes = [IsAuthenticated] # only if token is provided
 
     def get(self, request):
         # delete auth token to force login

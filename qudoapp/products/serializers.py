@@ -9,12 +9,12 @@ class ProductSerializer(serializers.ModelSerializer):
         model = Products # define user model
         fields = '__all__'
 
-
+# custom serializer for order post request  data
 class OrderSerializer(serializers.Serializer):
     id = serializers.IntegerField()
     quantity = serializers.IntegerField()
 
-
+# model serializer for serializing order items for order history
 class OrderItemModelSerializer(serializers.ModelSerializer):
     class Meta:
         model = OrderItems

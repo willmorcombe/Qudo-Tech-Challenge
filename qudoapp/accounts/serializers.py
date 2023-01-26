@@ -4,7 +4,7 @@ from .models import User
 
 class UserSerializer(serializers.ModelSerializer):
     class Meta:
-        model = User # define user model
+        model = User
         # define all fields that need to be returned in response
         fields = ['id', 'email', 'password']
 
@@ -13,6 +13,7 @@ class UserSerializer(serializers.ModelSerializer):
             'password' : {'write_only': True}
         }
 
+    # override creat function
     def create(self, validated_data):
         password = validated_data.pop('password', None)
         instance = self.Meta.model(**validated_data)

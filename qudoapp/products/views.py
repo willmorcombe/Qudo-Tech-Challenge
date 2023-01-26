@@ -10,28 +10,29 @@ from .models import Products, Orders, OrderItems
 from .serializers import ProductSerializer, OrderSerializer, OrderItemModelSerializer
 
 
-
+# viewing all products in store
 class ProductView(APIView):
-    permission_classes = [IsAuthenticated]
+    permission_classes = [IsAuthenticated] # has to have a token
 
     def get(self, request):
-        products = Products.get_all_data() # should I do this or is this a vunrability?
+        products = Products.get_all_data()
 
         serializer = ProductSerializer(products, many=True)
         return Response(serializer.data)
 
-# view to provide single product info
+# view to provide single product info for lookup
 class ProductDetialView(APIView):
-    permission_classes = [IsAuthenticated]
+    permission_classes = [IsAuthenticated] # has to have a token
 
     def get(self, request, pk):
-        product = Products.get_single_product(pk=pk) # should I do this or is this a vunrability?
+        product = Products.get_single_product(pk=pk)
 
         serializer = ProductSerializer(product, many=False)
         return Response(serializer.data)
 
+# view to order an item
 class OrderView(APIView):
-    permission_classes = [IsAuthenticated]
+    permission_classes = [IsAuthenticated] # has to have a token
 
     def post(self, request):
         # serialize input
@@ -49,7 +50,7 @@ class OrderView(APIView):
         if int(order_quantity) > int(product_quantity):
             return Response({'message' : 'Order cannot be placed, not enough items in stock'})
 
-        else:
+        else: # order can be placed
             # create new order for user
             order = Orders.objects.create(user=user)
             order_items = OrderItems.objects.create(order=order, product=product, quantity=order_quantity)
@@ -60,9 +61,9 @@ class OrderView(APIView):
 
             return Response({'message' : 'Successfully purchased product', 'product' : ProductSerializer(product, many=False).data})
 
-
+# view for getting user order history
 class OrderHistoryView(APIView):
-    permission_classes = [IsAuthenticated]
+    permission_classes = [IsAuthenticated] # has to have a token
 
     def get(self, request):
 
@@ -76,7 +77,5 @@ class OrderHistoryView(APIView):
             'user' : request.user.email,
             'item details' : history_serializer.data
         }
-
-
 
         return Response(data)
