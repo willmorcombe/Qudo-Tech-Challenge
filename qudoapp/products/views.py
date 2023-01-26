@@ -7,7 +7,7 @@ from rest_framework.permissions import IsAuthenticated
 from rest_framework import exceptions
 
 from .models import Products, Orders, OrderItems
-from .serializers import ProductSerializer, OrderSerializer
+from .serializers import ProductSerializer, OrderSerializer, OrderItemModelSerializer
 
 
 
@@ -52,10 +52,31 @@ class OrderView(APIView):
         else:
             # create new order for user
             order = Orders.objects.create(user=user)
-            order_items = OrderItems.objects.create(order=order, product=product, quantity=product_quantity)
+            order_items = OrderItems.objects.create(order=order, product=product, quantity=order_quantity)
 
             # update stock
             product.quantity_in_stock = int(product_quantity) - int(order_quantity)
             product.save()
 
             return Response({'message' : 'Successfully purchased product', 'product' : ProductSerializer(product, many=False).data})
+
+
+class OrderHistoryView(APIView):
+    permission_classes = [IsAuthenticated]
+
+    def get(self, request):
+
+        user = request.user
+        orders = Orders.objects.filter(user = user)
+        order_items = OrderItems.objects.filter(order__in=orders)
+        history_serializer = OrderItemModelSerializer(order_items, many=True)
+        history_data = history_serializer.data
+
+        data = {
+            'user' : request.user.email,
+            'item details' : history_serializer.data
+        }
+
+
+
+        return Response(data)

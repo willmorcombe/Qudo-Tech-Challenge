@@ -11,7 +11,7 @@ class Products(models.Model):
         db_table = 'products'
         managed = False
 
-    # function for returning all product data to display in list
+    # function for returning all product data to display
     @classmethod
     def get_all_data(self):
         return self.objects.all().order_by('name')
